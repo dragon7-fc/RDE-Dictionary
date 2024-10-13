@@ -95,8 +95,11 @@ if __name__ == '__main__':
 
         input_stream = io.BytesIO(bytes(bej_encoded_bytes))
         output_stream = io.StringIO()
+        def_binding_strings = {}
+        for key, value in pdr_map.items():
+            def_binding_strings["%L" + str(value)] = key
         success = decode.bej_decode(output_stream, input_stream, schema_dictionary, annotation_dictionary, {}, pdr_map,
-                                    {})
+                def_binding_strings)
         if success:
             if not silent:
                 print(json.dumps(json.loads(output_stream.getvalue()), indent=3))
